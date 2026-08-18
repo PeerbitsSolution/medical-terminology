@@ -1,0 +1,49 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint --if-present
+      - run: npm run typecheck --if-present
+      - run: npm test
+      - run: npm run build --if-present
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # Defense-in-depth per handover doc §7.1 / §10.2 — NOT a substitute for
+  # code review. Flags patterns suggestive of real CPT content so it's
+  # caught even if review misses it. Tune the pattern as the repo grows;
+  # a false positive here should block merge until a human confirms it's
+  # safe, not be silenced reflexively.
+  cpt-content-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan for CPT-content patterns
+        run: |
+          if grep -rniE "cpt[^a-z].{0,40}(office visit|established patient|new patient|evaluation and management)" --include="*.ts" --include="*.md" --include="*.json" .; then
+            echo "::error::Possible CPT content detected — see docs/LICENSING.md. Do not merge without legal review."
+            exit 1
+          fi

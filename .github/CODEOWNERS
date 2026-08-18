@@ -1,0 +1,11 @@
+# No auth/token paths in this repo. The critical review surface is
+# LEGAL/LICENSING, not just code correctness — cpt.ts, snomed.ts, and
+# rxnorm.ts specifically must never grow real licensed content.
+*                          @PeerbitsSolution/healthtech-oss
+/src/validators/cpt.ts     @PeerbitsSolution/healthtech-oss
+/src/validators/snomed.ts  @PeerbitsSolution/healthtech-oss
+/src/validators/rxnorm.ts  @PeerbitsSolution/healthtech-oss
+/fixtures/                 @PeerbitsSolution/healthtech-oss
+/docs/LICENSING.md         @PeerbitsSolution/healthtech-oss
+README.md                  @PeerbitsSolution/healthtech-oss
+SECURITY.md                @PeerbitsSolution/healthtech-oss

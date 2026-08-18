@@ -1,0 +1,59 @@
+{
+  "name": "@peerbits/medical-terminology",
+  "version": "1.0.0",
+  "description": "Terminology system-URI registry and code format/checksum validation utilities — ships zero licensed terminology datasets (see docs/LICENSING.md)",
+  "license": "Apache-2.0",
+  "author": "PeerbitsSolution",
+  "homepage": "https://github.com/PeerbitsSolution/medical-terminology#readme",
+  "bugs": {
+    "url": "https://github.com/PeerbitsSolution/medical-terminology/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PeerbitsSolution/medical-terminology.git"
+  },
+  "keywords": [
+    "healthcare",
+    "fhir",
+    "snomed",
+    "loinc",
+    "icd-10",
+    "rxnorm",
+    "cpt",
+    "ucum",
+    "typescript",
+    "terminology"
+  ],
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0",
+    "eslint": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

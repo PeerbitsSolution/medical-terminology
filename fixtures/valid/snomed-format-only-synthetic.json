@@ -1,0 +1,1 @@
+{ "_comment": "SYNTHETIC codes for checksum-algorithm shape testing only — real check-digit test vectors belong in tests/snomed-checksum.test.ts, sourced from the public algorithm spec, not from real SNOMED concept content." }
