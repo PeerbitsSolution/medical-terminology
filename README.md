@@ -45,7 +45,9 @@ npm install @peerbits/medical-terminology
 
 ---
 
-## 4. Quick Start
+## 4. Demo and Quick Start
+
+[Peerbits HealthTech - Medical Terminology Demo](https://healthcare.peerbits.com/demo/medical-terminology)
 
 ```ts
 import { validate, SYSTEM_REGISTRY, isValidSctid } from "@peerbits/medical-terminology";
