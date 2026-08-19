@@ -1,6 +1,6 @@
 {
   "name": "@peerbits/medical-terminology",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Terminology system-URI registry and code format/checksum validation utilities — ships zero licensed terminology datasets (see docs/LICENSING.md)",
   "license": "Apache-2.0",
   "author": "PeerbitsSolution",
@@ -26,6 +26,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
