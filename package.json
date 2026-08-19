@@ -48,7 +48,7 @@
     "terminology"
   ],
   "devDependencies": {
-    "typescript": "^5.5.0",
+    "typescript": "^6.0.3",
     "vitest": "^2.0.0",
     "eslint": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
