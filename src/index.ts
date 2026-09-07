@@ -1,6 +1,6 @@
-export const VERSION = "1.0.0";
+export const VERSION = "0.2.0";
 
-export { validate, validateWithProvider } from "./validate.js";
+export { validate, validateWithProvider, validateMany, validateManyWithProvider } from "./validate.js";
 
 export {
   registerProvider,
@@ -17,6 +17,7 @@ export {
   getSystemByIdentifier,
   getSystemByShortName,
   getSystemByUri,
+  canonicalizeSystemIdentifier,
 } from "./registry.js";
 
 export { isValidLoincFormat } from "./validators/loinc.js";
@@ -38,4 +39,5 @@ export type {
   ValidationIssue,
   ValidationResult,
   ValidationSeverity,
+  ValidationOptions,
 } from "./types.js";

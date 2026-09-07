@@ -36,6 +36,11 @@ export interface ValidationResult {
   providerConfigured: boolean;
 }
 
+export interface ValidationOptions {
+  /** Unknown code systems remain warnings by default for backward compatibility. */
+  unknownSystem?: "warning" | "error";
+}
+
 export interface ProviderLookupResult {
   found: boolean;
   display?: string;

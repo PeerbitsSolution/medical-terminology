@@ -11,6 +11,7 @@ import type {
   SupportedTerminologySystem,
   ValidationIssue,
   ValidationResult,
+  ValidationOptions,
 } from "./types.js";
 
 const formatChecks: Record<
@@ -51,7 +52,7 @@ function extractString(target: unknown, key: string): string | undefined {
  * @param concept The input concept object (e.g., { system, code, display? }).
  * @returns ValidationResult with validity flag, issues, and system metadata.
  */
-export function validate(concept: unknown): ValidationResult {
+export function validate(concept: unknown, options?: ValidationOptions): ValidationResult {
   const issues: ValidationIssue[] = [];
 
   if (!concept || typeof concept !== "object" || Array.isArray(concept)) {
@@ -106,13 +107,13 @@ export function validate(concept: unknown): ValidationResult {
 
   if (!system) {
     issues.push({
-      severity: "warning",
+      severity: options?.unknownSystem === "error" ? "error" : "warning",
       path: "system",
       code: "unknown-system",
       message: `Unknown terminology system: "${systemStr}". Format validation was skipped.`,
     });
     return {
-      valid: true,
+      valid: options?.unknownSystem !== "error",
       issues,
       providerConfigured: false,
     };
@@ -145,9 +146,10 @@ export function validate(concept: unknown): ValidationResult {
  * @returns Promise<ValidationResult> with format & provider validation results.
  */
 export async function validateWithProvider(
-  concept: unknown
+  concept: unknown,
+  options?: ValidationOptions
 ): Promise<ValidationResult> {
-  const result = validate(concept);
+  const result = validate(concept, options);
 
   if (!result.valid || !result.system || !result.providerConfigured) {
     return result;
@@ -192,4 +194,16 @@ export async function validateWithProvider(
   }
 
   return result;
+}
+
+/** Validates a list without stopping at the first invalid concept. */
+export function validateMany(concepts: readonly unknown[], options?: ValidationOptions): ValidationResult[] {
+  if (!Array.isArray(concepts)) throw new TypeError("concepts must be an array");
+  return concepts.map((concept) => validate(concept, options));
+}
+
+/** Provider-aware batch variant. Provider calls are independent and run concurrently. */
+export async function validateManyWithProvider(concepts: readonly unknown[], options?: ValidationOptions): Promise<ValidationResult[]> {
+  if (!Array.isArray(concepts)) throw new TypeError("concepts must be an array");
+  return Promise.all(concepts.map((concept) => validateWithProvider(concept, options)));
 }

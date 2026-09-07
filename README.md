@@ -1,5 +1,7 @@
 # @peerbits/medical-terminology
 
+Version 0.2 adds batch validation, canonical code-system URI resolution, and an optional strict mode that treats unknown systems as errors. The default remains backward compatible and reports unknown systems as warnings.
+
 > Terminology system-URI registry and code format/checksum validation utilities — ships zero licensed terminology datasets (see [Licensing](./docs/LICENSING.md))
 
 **Category:** Medical Coding — Terminology & Code-Handling Utilities · **License:** Apache-2.0 · **Status:** Stable
@@ -50,7 +52,7 @@ npm install @peerbits/medical-terminology
 [Peerbits HealthTech - Medical Terminology Demo](https://healthcare.peerbits.com/demo/medical-terminology)
 
 ```ts
-import { validate, SYSTEM_REGISTRY, isValidSctid } from "@peerbits/medical-terminology";
+import { canonicalizeSystemIdentifier, validate, validateMany } from "@peerbits/medical-terminology";
 
 // 1. Validate a LOINC observation code
 const loincResult = validate({
@@ -74,6 +76,16 @@ const invalidResult = validate({
 console.log(invalidResult.valid); // false
 console.log(invalidResult.issues);
 // [ { severity: "error", path: "code", code: "invalid-format", message: "..." } ]
+
+// Validate batches and reject unknown code systems when required
+const batch = validateMany([
+  { system: "LOINC", code: "8867-4" },
+  { system: "UCUM", code: "mm[Hg]" },
+], { unknownSystem: "error" });
+
+// Resolve aliases and OIDs to the canonical URI
+const canonicalUri = canonicalizeSystemIdentifier("LOINC");
+// http://loinc.org
 ```
 
 ---

@@ -88,3 +88,7 @@ export const getSystemByIdentifier = (
   const clean = identifier.trim().toLowerCase();
   return byUri.get(clean) ?? byShortName.get(clean) ?? byOid.get(clean);
 };
+
+/** Resolves a short name, URI, or OID to the canonical FHIR system URI. */
+export const canonicalizeSystemIdentifier = (identifier: string): string | undefined =>
+  getSystemByIdentifier(identifier)?.uri;
